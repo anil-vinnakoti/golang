@@ -1,0 +1,52 @@
+package main
+
+import (
+	"fmt"
+	"io"
+	"net/http"
+	"strings"
+)
+
+func main() {
+	fmt.Println("welcome to web requests")
+	performGetRequest("http://localhost:5000/get")
+}
+
+// performGetRequest sends a GET request to the provided endpoint
+func performGetRequest(endpoint string) {
+	// Tip: http.Get returns a response and an error
+	res, err := http.Get(endpoint)
+	if err != nil {
+		panic(err)
+	}
+	defer res.Body.Close() // Tip: Always close response body to avoid memory leaks
+
+	fmt.Println("Status code:", res.StatusCode)
+	fmt.Println("Content length is:", res.ContentLength)
+
+	// -------------------------------------------
+	// Read response body using io.ReadAll
+	// Tip: io.ReadAll reads all bytes from the response body
+	// -------------------------------------------
+	content, err := io.ReadAll(res.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	// ------------------------------
+	// Option 1: Directly convert bytes to string
+	// Tip: Simple and quick for small data
+	// ------------------------------
+	byteCount := len(content)
+	fmt.Println("Byte count is:", byteCount)
+	fmt.Println("Content using string():", string(content))
+
+	// ------------------------------
+	// Option 2: Use strings.Builder
+	// Tip: More efficient when working with large or dynamic strings
+	// ------------------------------
+	var resString strings.Builder
+	builderByteCount, _ := resString.Write(content)
+	fmt.Println("Byte count (using Builder):", builderByteCount)
+	fmt.Println("Content using strings.Builder:", resString.String())
+}
