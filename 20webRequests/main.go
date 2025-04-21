@@ -9,16 +9,18 @@ import (
 
 func main() {
 	fmt.Println("welcome to web requests")
-	performGetRequest("http://localhost:5000/get")
+	const getUrl = "http://localhost:5000/get"
+	const postUrl = "http://localhost:5000/post"
+	// performGetRequest(getUrl)
+	performPostJsonRequest(postUrl)
+
 }
 
 // performGetRequest sends a GET request to the provided endpoint
 func performGetRequest(endpoint string) {
 	// Tip: http.Get returns a response and an error
 	res, err := http.Get(endpoint)
-	if err != nil {
-		panic(err)
-	}
+	handleError(err)
 	defer res.Body.Close() // Tip: Always close response body to avoid memory leaks
 
 	fmt.Println("Status code:", res.StatusCode)
@@ -29,9 +31,7 @@ func performGetRequest(endpoint string) {
 	// Tip: io.ReadAll reads all bytes from the response body
 	// -------------------------------------------
 	content, err := io.ReadAll(res.Body)
-	if err != nil {
-		panic(err)
-	}
+	handleError(err)
 
 	// ------------------------------
 	// Option 1: Directly convert bytes to string
@@ -49,4 +49,31 @@ func performGetRequest(endpoint string) {
 	builderByteCount, _ := resString.Write(content)
 	fmt.Println("Byte count (using Builder):", builderByteCount)
 	fmt.Println("Content using strings.Builder:", resString.String())
+}
+
+func performPostJsonRequest(endpoint string) {
+
+	//fake json payload
+	requestBody := strings.NewReader(`{
+		"name": "Anil",
+		"age": "27"
+	}`)
+
+	res, err := http.Post(endpoint, "application/json", requestBody)
+
+	handleError(err)
+
+	defer res.Body.Close()
+
+	content, err := io.ReadAll(res.Body)
+	handleError(err)
+
+	fmt.Println(string(content))
+
+}
+
+func handleError(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
