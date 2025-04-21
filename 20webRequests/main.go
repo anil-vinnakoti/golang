@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -11,8 +12,9 @@ func main() {
 	fmt.Println("welcome to web requests")
 	const getUrl = "http://localhost:5000/get"
 	const postUrl = "http://localhost:5000/post"
+	const postFormUrl = "http://localhost:5000/postform"
 	// performGetRequest(getUrl)
-	performPostJsonRequest(postUrl)
+	performPostFormRequest(postFormUrl)
 
 }
 
@@ -68,6 +70,23 @@ func performPostJsonRequest(endpoint string) {
 	content, err := io.ReadAll(res.Body)
 	handleError(err)
 
+	fmt.Println(string(content))
+
+}
+
+func performPostFormRequest(endpoint string) {
+	//fake form data
+	data := url.Values{}
+	data.Add("firstName", "Anil")
+	data.Add("lastName", "Vinnakoti")
+	data.Add("email", "anil.vinnakoti@gmail.com")
+
+	res, err := http.PostForm(endpoint, data)
+	handleError(err)
+	defer res.Body.Close()
+
+	content, err := io.ReadAll(res.Body)
+	handleError(err)
 	fmt.Println(string(content))
 
 }
