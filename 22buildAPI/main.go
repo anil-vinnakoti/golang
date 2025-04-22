@@ -52,6 +52,10 @@ func main() {
 	// Tip: Set up router and routes
 	r := mux.NewRouter()
 
+	// seeding
+	books = append(books, Book{BookId: "1", Name: "The Art of Being Alone", Price: 300, Author: &Author{AuthorName: "Renuka Gavrani", Email: "renuka@gavrani.com", IsVerified: true}})
+	books = append(books, Book{BookId: "2", Name: "The Art of Being Alone PT-II", Price: 300, Author: &Author{AuthorName: "Renuka Gavrani", Email: "renuka@gavrani.com", IsVerified: true}})
+
 	r.HandleFunc("/", serveHome).Methods("GET")
 	r.HandleFunc("/books", getBooks).Methods("GET")
 	r.HandleFunc("/book/{bookId}", getBook).Methods("GET")
