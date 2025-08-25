@@ -21,3 +21,9 @@ func main() {
 	fmt.Println("integers list", list2)
 	fmt.Println("list2 length", len(list2)) //4
 }
+
+// * Note *
+// A fixed-size sequence of elements of the same type.
+// Size is part of its type and cannot be changed.
+// Passed by value (copy of entire array).
+// Zero value is an array with zeroed elements.
