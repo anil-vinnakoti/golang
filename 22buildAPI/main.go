@@ -50,18 +50,18 @@ func (b *Book) IsEmpty() bool {
 // --------------------------------------------
 func main() {
 	// Tip: Set up router and routes
-	r := mux.NewRouter()
+	r := http.NewServeMux()
 
 	// seeding
 	books = append(books, Book{BookId: "1", Name: "The Art of Being Alone", Price: 300, Author: &Author{AuthorName: "Renuka Gavrani", Email: "renuka@gavrani.com", IsVerified: true}})
 	books = append(books, Book{BookId: "2", Name: "The Art of Being Alone PT-II", Price: 300, Author: &Author{AuthorName: "Renuka Gavrani", Email: "renuka@gavrani.com", IsVerified: true}})
 
-	r.HandleFunc("/", serveHome).Methods("GET")
-	r.HandleFunc("/books", getBooks).Methods("GET")
-	r.HandleFunc("/book/{bookId}", getBook).Methods("GET")
-	r.HandleFunc("/book", createBook).Methods("POST")
-	r.HandleFunc("/book/{bookId}", updateBook).Methods("PUT")
-	r.HandleFunc("/book/{bookId}", deleteBook).Methods("DELETE")
+	r.HandleFunc("GET /", serveHome)
+	r.HandleFunc("POST /books", getBooks)
+	r.HandleFunc("GET /book/{bookId}", getBook)
+	r.HandleFunc("POST /book", createBook)
+	r.HandleFunc("PUT /book/{bookId}", updateBook)
+	r.HandleFunc("DELETE /book/{bookId}", deleteBook)
 
 	// Tip: Start server
 	fmt.Println("Server is running on :4000")
