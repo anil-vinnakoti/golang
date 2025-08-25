@@ -3,22 +3,24 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("Welcome to pointers")
+	num := 25
 
-	var num1 = 25
+	// copying value
+	copiedNum := num
+	copiedNum += 5
 
-	// copying the value
-	duplicateNum1 := num1
-	duplicateNum1 += 2
-	fmt.Println("value of variable num1 is:", num1)
+	fmt.Println("copied num", copiedNum) // it is 30
+	fmt.Println("actual num", num)       // ===> its 25
 
-	// passing memory
-	var pointerRef = &num1
-	*pointerRef += 2
-	fmt.Println("value of variable duplicateNum1 is:", duplicateNum1)
-	fmt.Println("value of variable num1 is:", num1)
+	// passing memory reference to the variable
+	newNum := &num
+	*newNum += 5
 
-	fmt.Println("reference of variable pointerRef is:", pointerRef)
-	fmt.Println("value of variable pointerRef is:", *pointerRef)
-
+	fmt.Println("copied num", newNum) // it give the memory reference
+	fmt.Println("actual num", num)    // ===> its 30
+	fmt.Println("new num", *newNum)   // ===> its 30
 }
+
+// * Note *
+// use & to pass the memory reference
+// user * to access the value from the memory reference
