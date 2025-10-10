@@ -6,5 +6,7 @@ func main() {
 	// Asynchronous()			// go rountines without waitGroups
 	// WaitGroups()				// go rountines with waitGroups
 	// UnbefferedChannel()
-	BufferedChannel()
+	// BufferedChannel()
+	// CloseChannel()
+	ChannelRange()
 }
